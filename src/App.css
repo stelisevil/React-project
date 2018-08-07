@@ -1,0 +1,11 @@
+.highlight {
+  color: palevioletred;
+}
+.non-highlight {
+  color: grey;
+}
+.profile {
+  border: 1px solid grey;
+  margin: 20px;
+  padding: 20px;
+}
