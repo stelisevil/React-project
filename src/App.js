@@ -23,8 +23,8 @@ class Name extends React.Component {
     }
     return (
       <div className='profile'>
-        <p>Firstname: {this.props.firstName}</p>
-        <p>Lastname: {this.props.lastName}</p>
+        <p>First Name: {this.props.firstName}</p>
+        <p>Last Name: {this.props.lastName}</p>
         <p>Age: {this.props.age}</p>
         <p>{convictionMessage}</p>
         <p>Driving License: {this.props.drivingLicense ? 'True' : 'False'}</p>
@@ -55,20 +55,31 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: ''
+      name: '',
+      surname: '',
+      age: '',
+      drivingLicense: ''
     }
   }
 
   render() {
     return (
       <div>
-        <input onChange={e => this.setState({ name: e.target.value })} />
+        <h1>Your Online ID Card!</h1>
+        <h2>Enter your details below for a shiny new ID card!</h2>
+        <p>First Name: <input onChange={e => this.setState({ name: e.target.value })} /></p>
+        <p>Surname: <input onChange={e => this.setState({ surname: e.target.value })} /></p>
+        <p>Age: <input onChange={e => this.setState({ age: e.target.value })} /></p>
+        <p>Driving License?<form>
+          <input type="radio" name="drv" value={true} onChange={e => this.setState({ drivingLicense: e.target.value })} /> Yes
+          <input type="radio" name="drv" value={false} onChange={e => this.setState({ drivingLicense: e.target.value })} /> No
+        </form></p>
         <Name
           firstName={this.state.name}
-          lastName="Tsinontas"
-          age={25}
+          lastName={this.state.surname}
+          age={this.state.age}
           convinctions={false}
-          drivingLicense
+          drivingLicense={this.state.drivingLicense}
           previousCompanies={['Cirrus', 'Beatroot', 'LADbible', 'BRIGHTHR']}
           mother={{ name: 'Maria Towli', occupation: 'Teacher' }}
           currentCompany="BRIGHTHR"
