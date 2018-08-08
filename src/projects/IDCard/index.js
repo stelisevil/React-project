@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './style.css';
 
 class CompanyName extends React.Component {
   render() {
@@ -43,14 +43,15 @@ class Name extends React.Component {
         <b>Mother</b>
         <p>Name: {this.props.mother.name}</p>
         <p>Occupation: {this.props.mother.occupation}</p>
-        <button onClick={this.props.onClick}>Click me!</button>
+        <button onClick={this.props.changeDrivingLicense}>Click Me</button>
+        <button onClick={this.props.moveToNextCompany}>Go to next company</button>
       </div>
     )
   }
 }
 
-// App component
-class App extends React.Component {
+// Main component
+class Main extends React.Component {
 
   constructor() {
     super();
@@ -58,11 +59,13 @@ class App extends React.Component {
       name: '',
       surname: '',
       age: '',
-      drivingLicense: ''
+      currentCompany: 0,
+      drivingLicense: true
     }
   }
 
   render() {
+    const companies = ['Cirrus', 'Beatroot', 'LADbible', 'BRIGHTHR'];
     return (
       <div>
         <h1>Your Online ID Card!</h1>
@@ -70,21 +73,28 @@ class App extends React.Component {
         <p>First Name: <input onChange={e => this.setState({ name: e.target.value })} /></p>
         <p>Surname: <input onChange={e => this.setState({ surname: e.target.value })} /></p>
         <p>Age: <input onChange={e => this.setState({ age: e.target.value })} /></p>
-        <p>Driving License?<form>
-          <input type="radio" name="drv" value={true} onChange={e => this.setState({ drivingLicense: e.target.value })} /> Yes
-          <input type="radio" name="drv" value={false} onChange={e => this.setState({ drivingLicense: e.target.value })} /> No
-        </form></p>
+        <p>Driving License?</p>
+
+        True <input type='radio' checked={this.state.drivingLicense} name='driving' onChange={() => {this.setState({ drivingLicense: true })}} />
+        False <input type='radio' checked={!this.state.drivingLicense} name='driving' onChange={() => {this.setState({ drivingLicense: false })}} />
         <Name
           firstName={this.state.name}
           lastName={this.state.surname}
           age={this.state.age}
           convinctions={false}
           drivingLicense={this.state.drivingLicense}
-          previousCompanies={['Cirrus', 'Beatroot', 'LADbible', 'BRIGHTHR']}
+          previousCompanies={companies}
           mother={{ name: 'Maria Towli', occupation: 'Teacher' }}
-          currentCompany="BRIGHTHR"
-          onClick={() => {
-            alert('DISSGUYYYY');
+          currentCompany={companies[this.state.currentCompany]}
+          changeDrivingLicense={() => {
+            this.setState({ drivingLicense: !this.state.drivingLicense})
+          }}
+          moveToNextCompany={() => {
+            let nextCompany = this.state.currentCompany + 1;
+            if (nextCompany === companies.length) {
+              nextCompany = 0;
+            }
+            this.setState({ currentCompany: nextCompany })
           }}
         />
       </div>
@@ -92,4 +102,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Main;

@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// Projects here
+import IDCard from './projects/IDCard';
+import TodoList from './projects/TodoList';
+
+ReactDOM.render(<TodoList />, document.getElementById('root'));
 registerServiceWorker();
