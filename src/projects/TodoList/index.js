@@ -5,6 +5,7 @@ class Todo extends React.Component {
   render() {
     return (
       <p>{this.props.eachTodo}</p>
+
     )
   }
 }
@@ -14,7 +15,8 @@ class TodoList extends React.Component {
     super();
     this.state = {
       todos: ['Take out the bins', 'Put a wash load on', 'Learn React', 'Gitgud at Overwatch'],
-      test: 'Tester'
+      test: 'Tester',
+      newItem: ''
     }
   }
   render() {
@@ -23,6 +25,10 @@ class TodoList extends React.Component {
       return (
         <Todo
           eachTodo={item}
+          // I know that this is in the wrong place
+          addItem={() => {
+            this.setState({ todos: this.state.todos.push(this.state.newItem) })
+          }}
         />
       )
     })
@@ -30,7 +36,10 @@ class TodoList extends React.Component {
     return (
       <div>
         <h1>Hey im a todo list:</h1>
+        <b>Add a new item:</b> <input value={this.state.newItem} onChange={e => this.setState({ newItem: e.target.value })}/>
+        <button onClick={this.props.addItem}>Add item!</button>
         {eachTodo}
+        {this.state.newItem}
       </div>
     )
 
