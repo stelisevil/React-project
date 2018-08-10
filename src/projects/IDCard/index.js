@@ -32,11 +32,13 @@ class Name extends React.Component {
         <ol>
           {this.props.previousCompanies.map((company) => {
             return (
+
               <CompanyName
                 key={company}
                 company={company}
                 highlight={company === this.props.currentCompany}
               />
+
             )
           })}
         </ol>
@@ -67,6 +69,7 @@ class Main extends React.Component {
   render() {
     const companies = ['Cirrus', 'Beatroot', 'LADbible', 'BRIGHTHR'];
     return (
+
       <div>
         <h1>Your Online ID Card!</h1>
         <h2>Enter your details below for a shiny new ID card!</h2>
@@ -77,6 +80,7 @@ class Main extends React.Component {
 
         True <input type='radio' checked={this.state.drivingLicense} name='driving' onChange={() => {this.setState({ drivingLicense: true })}} />
         False <input type='radio' checked={!this.state.drivingLicense} name='driving' onChange={() => {this.setState({ drivingLicense: false })}} />
+
         <Name
           firstName={this.state.name}
           lastName={this.state.surname}
@@ -97,6 +101,7 @@ class Main extends React.Component {
             this.setState({ currentCompany: nextCompany })
           }}
         />
+
       </div>
     );
   }

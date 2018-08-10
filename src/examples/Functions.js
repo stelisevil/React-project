@@ -2,7 +2,7 @@ class TodoList extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: ['Take out the binds', 'Put a wash load on']
+      todos: ['Take out the bins', 'Put a wash load on']
     }
   }
   render() {
@@ -15,6 +15,10 @@ class TodoList extends React.Component {
     )
   }
 }
+
+
+
+
 
 function Todo(props) {
   return <h1>{props.task}</h1>;
