@@ -4,8 +4,7 @@ import style from './style.css';
 class Todo extends React.Component {
   render() {
     return (
-      <p>{this.props.eachTodo}</p>
-
+      <p>{this.props.task}</p>
     )
   }
 }
@@ -13,36 +12,37 @@ class Todo extends React.Component {
 class TodoList extends React.Component {
   constructor() {
     super();
+    this.addItem = this.addItem.bind(this)
     this.state = {
-      todos: ['Take out the bins', 'Put a wash load on', 'Learn React', 'Gitgud at Overwatch'],
-      test: 'Tester',
+      todos: ['Take out the bins', 'Put a wash load on', 'Learn React'],
       newItem: ''
     }
   }
+  addItem() {
+    const newTodos = this.state.todos
+    newTodos.push(this.state.newItem)
+    this.setState({ todos: newTodos, newItem: '' })
+  }
   render() {
     // Before the return you can do all logic you need
-    let eachTodo = this.state.todos.map((item) => {
+    let todos = this.state.todos.map((task, i) => {
       return (
         <Todo
-          eachTodo={item}
-          // I know that this is in the wrong place
-          addItem={() => {
-            this.setState({ todos: this.state.todos.push(this.state.newItem) })
-          }}
+          key={i}
+          task={task}
         />
       )
     })
 
     return (
       <div>
-        <h1>Hey im a todo list:</h1>
+        <h1>Hey I'm a todo list:</h1>
         <b>Add a new item:</b> <input value={this.state.newItem} onChange={e => this.setState({ newItem: e.target.value })}/>
-        <button onClick={this.props.addItem}>Add item!</button>
-        {eachTodo}
+        <button onClick={this.addItem}>Add item!</button>
+        {todos}
         {this.state.newItem}
       </div>
     )
-
   }
 }
 
