@@ -16,6 +16,7 @@ class TodoList extends React.Component {
     super();
     this.addItem = this.addItem.bind(this)
     this.removeItem = this.removeItem.bind(this)
+    this.pressEnter = this.pressEnter.bind(this)
     this.state = {
       todos: ['Take out the bins', 'Put a wash load on', 'Learn React'],
       newItem: '',
@@ -24,15 +25,20 @@ class TodoList extends React.Component {
   }
   addItem() {
     const newTodos = this.state.todos
-    newTodos.push(this.state.newItem)
-    this.setState({ todos: newTodos, newItem: '' })
+    if (this.state.newItem !== '') {
+      newTodos.push(this.state.newItem)
+      this.setState({ todos: newTodos, newItem: '' })
+    }
   }
-  removeItem() {
-    let removedItem = this.props.key
-    this.setState({ removedIndex: removedItem })
-    const removedTodos = this.state.todos
-    removedTodos.splice(this.state.todos[this.state.removedIndex], 1)
-    this.setState({ todos: removedTodos, removedIndex: '' })
+  removeItem(i) {
+    let removedTodos = this.state.todos
+    removedTodos.splice(i, 1)
+    this.setState({ todos: removedTodos })
+  }
+  pressEnter(e) {
+    if (e.key === 'Enter') {
+      this.addItem();
+    }
   }
   render() {
     // Before the return you can do all logic you need
@@ -41,7 +47,9 @@ class TodoList extends React.Component {
         <Todo
           key={i}
           task={task}
-          removeItem={this.removeItem}
+          removeItem={() => {
+            this.removeItem(i);
+          }}
         />
       )
     })
@@ -49,7 +57,7 @@ class TodoList extends React.Component {
     return (
       <div>
         <h1>Hey I'm a todo list:</h1>
-        <b>Add a new item:</b> <input value={this.state.newItem} onChange={e => this.setState({ newItem: e.target.value })}/>
+        <b>Add a new item:</b> <input value={this.state.newItem} onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: e.target.value })}/>
         <button onClick={this.addItem}>Add item!</button>
         {todos}
         {this.state.newItem}
