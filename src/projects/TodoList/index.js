@@ -1,16 +1,6 @@
 import React from 'react';
-import style from './style.css';
-
-class Todo extends React.Component {
-  render() {
-    let className = this.props.completed ? 'completed' : 'notComplete';
-    return (
-      <div>
-        <p className={className}>{this.props.task.task} <button onClick={this.props.removeItem}>Remove Item</button> <button onClick={this.props.changeCompleted}>Task Complete!</button></p>
-      </div>
-    )
-  }
-}
+import Todo from './components/Todo';
+import './style.css';
 
 class TodoList extends React.Component {
   constructor() {
@@ -20,15 +10,20 @@ class TodoList extends React.Component {
     this.pressEnter = this.pressEnter.bind(this)
     this.changeCompleted = this.changeCompleted.bind(this)
     this.state = {
-      todos: [{ task: 'Take out the bins', completed: false }, { task: 'Put a wash load on', completed: true}, { task: 'Learn React', completed: false }],
-      newItem: { task: '', completed: false }
+      todos: [
+        { task: 'Take out the bins', completed: false },
+        { task: 'Put a wash load on', completed: true },
+        { task: 'Learn React', completed: false }
+      ],
+      newItem: ''
     }
   }
   addItem() {
     const newTodos = this.state.todos
-    if (this.state.newItem.task !== '') {
-      newTodos.push(this.state.newItem)
-      this.setState({ todos: newTodos, newItem: { task: '', completed: false } })
+    if (this.state.newItem !== '') {
+      const newTodo = { task: this.state.newItem, completed: false }
+      newTodos.push(newTodo)
+      this.setState({ todos: newTodos, newItem: '' })
     }
   }
   removeItem(i) {
@@ -42,7 +37,11 @@ class TodoList extends React.Component {
     }
   }
   changeCompleted(i) {
-    this.setState({ todos: { task: this.state.todos[i].task, completed: !this.state.todos[i].completed }})
+    let taskListToBeAltered = this.state.todos
+    let alteredTask = taskListToBeAltered[i]
+    alteredTask.completed = !alteredTask.completed;
+    // taskListToBeAltered.splice(i, 1, alteredTask);
+    this.setState({ todos: taskListToBeAltered });
   }
   render() {
     // Before the return you can do all logic you need
@@ -63,12 +62,21 @@ class TodoList extends React.Component {
     })
 
     return (
-      <div>
+      <div className='container'>
         <h1>Hey I'm a todo list:</h1>
-        <b>Add a new item:</b> <input value={this.state.newItem.task} onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: { task: e.target.value, completed: false } })}/>
-        <button onClick={this.addItem}>Add item!</button>
+        <div className='row'>
+          <div className='col-sm'>
+            <b>Add a new item:</b>
+          </div>
+          <div className='col-sm'>
+            <input className='form-control' value={this.state.newItem} placeholder='enter text here...' onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: e.target.value })}/>
+          </div>
+          <div className='col-sm'>
+            <button onClick={this.addItem}>Add item!</button>
+          </div>
+        </div>
         {todos}
-        {this.state.newItem.task}
+        {this.state.newItem}
       </div>
     )
   }
