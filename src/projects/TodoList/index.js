@@ -3,9 +3,10 @@ import style from './style.css';
 
 class Todo extends React.Component {
   render() {
+    let className = this.props.completed ? 'completed' : 'notComplete';
     return (
       <div>
-        <p>{this.props.task} <button onClick={this.props.removeItem}>-</button></p>
+        <p className={className}>{this.props.task.task} <button onClick={this.props.removeItem}>Remove Item</button> <button onClick={this.props.changeCompleted}>Task Complete!</button></p>
       </div>
     )
   }
@@ -17,16 +18,17 @@ class TodoList extends React.Component {
     this.addItem = this.addItem.bind(this)
     this.removeItem = this.removeItem.bind(this)
     this.pressEnter = this.pressEnter.bind(this)
+    this.changeCompleted = this.changeCompleted.bind(this)
     this.state = {
-      todos: ['Take out the bins', 'Put a wash load on', 'Learn React'],
-      newItem: ''
+      todos: [{ task: 'Take out the bins', completed: false }, { task: 'Put a wash load on', completed: true}, { task: 'Learn React', completed: false }],
+      newItem: { task: '', completed: false }
     }
   }
   addItem() {
     const newTodos = this.state.todos
-    if (this.state.newItem !== '') {
+    if (this.state.newItem.task !== '') {
       newTodos.push(this.state.newItem)
-      this.setState({ todos: newTodos, newItem: '' })
+      this.setState({ todos: newTodos, newItem: { task: '', completed: false } })
     }
   }
   removeItem(i) {
@@ -39,6 +41,9 @@ class TodoList extends React.Component {
       this.addItem();
     }
   }
+  changeCompleted(i) {
+    this.setState({ todos: { task: this.state.todos[i].task, completed: !this.state.todos[i].completed }})
+  }
   render() {
     // Before the return you can do all logic you need
     let todos = this.state.todos.map((task, i) => {
@@ -49,6 +54,10 @@ class TodoList extends React.Component {
           removeItem={() => {
             this.removeItem(i);
           }}
+          completed={task.completed}
+          changeCompleted={() => {
+            this.changeCompleted(i)
+          }}
         />
       )
     })
@@ -56,10 +65,10 @@ class TodoList extends React.Component {
     return (
       <div>
         <h1>Hey I'm a todo list:</h1>
-        <b>Add a new item:</b> <input value={this.state.newItem} onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: e.target.value })}/>
+        <b>Add a new item:</b> <input value={this.state.newItem.task} onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: { task: e.target.value, completed: false } })}/>
         <button onClick={this.addItem}>Add item!</button>
         {todos}
-        {this.state.newItem}
+        {this.state.newItem.task}
       </div>
     )
   }
