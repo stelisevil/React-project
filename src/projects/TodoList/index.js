@@ -19,8 +19,7 @@ class TodoList extends React.Component {
     this.pressEnter = this.pressEnter.bind(this)
     this.state = {
       todos: ['Take out the bins', 'Put a wash load on', 'Learn React'],
-      newItem: '',
-      removedIndex: ''
+      newItem: ''
     }
   }
   addItem() {
