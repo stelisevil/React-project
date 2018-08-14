@@ -1,15 +1,6 @@
 import React from 'react';
-import style from './style.css';
-
-class Todo extends React.Component {
-  render() {
-    return (
-      <div>
-        <p>{this.props.task} <button onClick={this.props.removeItem}>-</button></p>
-      </div>
-    )
-  }
-}
+import Todo from './components/Todo';
+import './style.css';
 
 class TodoList extends React.Component {
   constructor() {
@@ -17,16 +8,21 @@ class TodoList extends React.Component {
     this.addItem = this.addItem.bind(this)
     this.removeItem = this.removeItem.bind(this)
     this.pressEnter = this.pressEnter.bind(this)
+    this.changeCompleted = this.changeCompleted.bind(this)
     this.state = {
-      todos: ['Take out the bins', 'Put a wash load on', 'Learn React'],
-      newItem: '',
-      removedIndex: ''
+      todos: [
+        { task: 'Take out the bins', completed: false },
+        { task: 'Put a wash load on', completed: true },
+        { task: 'Learn React', completed: false }
+      ],
+      newItem: ''
     }
   }
   addItem() {
     const newTodos = this.state.todos
     if (this.state.newItem !== '') {
-      newTodos.push(this.state.newItem)
+      const newTodo = { task: this.state.newItem, completed: false }
+      newTodos.push(newTodo)
       this.setState({ todos: newTodos, newItem: '' })
     }
   }
@@ -40,6 +36,13 @@ class TodoList extends React.Component {
       this.addItem();
     }
   }
+  changeCompleted(i) {
+    let taskListToBeAltered = this.state.todos
+    let alteredTask = taskListToBeAltered[i]
+    alteredTask.completed = !alteredTask.completed;
+    // taskListToBeAltered.splice(i, 1, alteredTask);
+    this.setState({ todos: taskListToBeAltered });
+  }
   render() {
     // Before the return you can do all logic you need
     let todos = this.state.todos.map((task, i) => {
@@ -50,15 +53,28 @@ class TodoList extends React.Component {
           removeItem={() => {
             this.removeItem(i);
           }}
+          completed={task.completed}
+          changeCompleted={() => {
+            this.changeCompleted(i)
+          }}
         />
       )
     })
 
     return (
-      <div>
+      <div className='container'>
         <h1>Hey I'm a todo list:</h1>
-        <b>Add a new item:</b> <input value={this.state.newItem} onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: e.target.value })}/>
-        <button onClick={this.addItem}>Add item!</button>
+        <div className='row'>
+          <div>
+            <p className='pr-1'><strong>Add a new item:</strong></p>
+          </div>
+          <div>
+            <input className='form-control' value={this.state.newItem} placeholder='enter text here...' onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: e.target.value })}/>
+          </div>
+          <div>
+            <button class="btn btn-primary" onClick={this.addItem}>Add item!</button>
+          </div>
+        </div>
         {todos}
         {this.state.newItem}
       </div>
