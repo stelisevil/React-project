@@ -65,14 +65,14 @@ class TodoList extends React.Component {
       <div className='container'>
         <h1>Hey I'm a todo list:</h1>
         <div className='row'>
-          <div className='col-sm'>
-            <b>Add a new item:</b>
+          <div>
+            <p className='pr-1'><strong>Add a new item:</strong></p>
           </div>
-          <div className='col-sm'>
+          <div>
             <input className='form-control' value={this.state.newItem} placeholder='enter text here...' onKeyPress={this.pressEnter} onChange={e => this.setState({ newItem: e.target.value })}/>
           </div>
-          <div className='col-sm'>
-            <button onClick={this.addItem}>Add item!</button>
+          <div>
+            <button class="btn btn-primary" onClick={this.addItem}>Add item!</button>
           </div>
         </div>
         {todos}

@@ -6,7 +6,7 @@ class Todo extends React.Component {
     let className = this.props.completed ? 'completed' : 'notComplete';
     return (
       <div>
-        <p className={className}>{this.props.task.task} <button onClick={this.props.removeItem}>Remove Item</button> <button onClick={this.props.changeCompleted}>Task Complete!</button></p>
+        <p className={className}>{this.props.task.task} <button class="btn btn-secondary btn-sm" onClick={this.props.removeItem}>Remove Item</button> <button class="btn btn-secondary btn-sm" onClick={this.props.changeCompleted}>Task Complete!</button></p>
       </div>
     )
   }
