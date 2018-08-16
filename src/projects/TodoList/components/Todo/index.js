@@ -3,8 +3,14 @@ import './style.css';
 
 class Todo extends React.Component {
   render() {
+    const taskCompleteImg = require('./images/checked-box.png')
+    const taskNotCompleteImg = require('./images/unchecked-box.png')
+    const editItemImg = require('./images/edit.png')
+    const binDelete = require('./images/bin-delete.png')
 
+    let checkBox = this.props.completed ? taskCompleteImg : taskNotCompleteImg;
     let completedTask = this.props.completed ? 'completed' : 'not-complete';
+
     let editing = this.props.isEditing ? (
       <React.Fragment>
         <input
@@ -12,37 +18,37 @@ class Todo extends React.Component {
           onChange={this.props.whilstEditing}
         />
         <button
-          className="btn btn-info btn-sm"
+          className="btn btn-outline-success btn-sm"
           onClick={this.props.confirmEditTask}
           disabled={this.props.editingTask.trim() === '' }
         >
           Confirm
         </button>
+        <button
+          className="btn btn-outline-danger btn-sm"
+          onClick={this.props.editTask}
+        >
+          Cancel
+        </button>
       </React.Fragment>
     ) : (
-      <span className={completedTask + " border rounded p-1 col"}>
+      <span className={completedTask + " border rounded p-1 col-6 todo-bg"}>
         {this.props.todo}
       </span>
     );
 
-    let showButtons = (!this.props.isEditing) && (
+    let showRemoveItem = (!this.props.isEditing) && (
       <React.Fragment>
-        <button className="btn btn-danger btn-sm col-2" onClick={this.props.removeItem}>
-          Remove Item
-        </button>
-        <button className="btn btn-success btn-sm col-2" onClick={this.props.changeCompleted}>
-          Task Complete!
-        </button>
+        <img className="img-box" src={binDelete} onClick={this.props.removeItem}/>
+        <img className="img-box" src={editItemImg} onClick={this.props.editTask}/>
       </React.Fragment>
     )
 
     return (
       <div className="row mt-2">
+        <img className="img-box" src={checkBox} onClick={this.props.changeCompleted}/>
         {editing}
-        {showButtons}
-        <button className="btn btn-warning btn-sm col-2" onClick={this.props.editTask}>
-          {this.props.isEditing ? 'Cancel' : 'Edit Task'}
-        </button>
+        {showRemoveItem}
       </div>
     )
   }

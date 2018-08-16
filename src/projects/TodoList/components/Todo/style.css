@@ -1,4 +1,29 @@
+.todo-bg:hover {
+  background-color: #eeeeee
+}
+
 .completed {
   text-decoration: line-through;
-  color: grey;
+  font-style: italic;
+  color: #cccccc;
+}
+
+.img-box {
+  margin: 3px;
+  width: 28px;
+  height: 28px;
+  opacity: 0.8;
+}
+
+.img-box:hover {
+  margin: 2px;
+  width: 30px;
+  height: 30px;
+  background-color: #eeeeee;
+  opacity: 1;
+}
+
+.img-box img {
+  width: 100%;
+  height: auto;
 }

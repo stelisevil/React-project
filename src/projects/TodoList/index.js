@@ -38,31 +38,28 @@ class TodoList extends React.Component {
     }
   }
   changeCompleted(i) {
-    let taskListToBeAltered = this.state.todos
-    let alteredTask = taskListToBeAltered[i]
-    alteredTask.completed = !alteredTask.completed;
-    // taskListToBeAltered.splice(i, 1, alteredTask);
-    this.setState({ todos: taskListToBeAltered });
+    this.state.todos[i].completed = !this.state.todos[i].completed
+    // let taskListToBeAltered = this.state.todos
+    // let alteredTask = taskListToBeAltered[i]
+    // alteredTask.completed = !alteredTask.completed;
+    this.setState({ todos: this.state.todos });
   }
   showEditField(i) {
-    let taskListToBeAltered = this.state.todos;
-    let alteredTask = taskListToBeAltered[i];
+    let alteredTask = this.state.todos[i];
     alteredTask.isEditing = !alteredTask.isEditing;
     alteredTask.editingTask = alteredTask.task;
-    this.setState({ todos: taskListToBeAltered });
+    this.setState({ todos: this.state.todos });
   }
   confirmEditTask(i) {
-    let taskListToBeAltered = this.state.todos;
-    let alteredTask = taskListToBeAltered[i];
+    let alteredTask = this.state.todos[i];
     alteredTask.task = alteredTask.editingTask;
     alteredTask.isEditing = !alteredTask.isEditing;
-    this.setState({ todos: taskListToBeAltered });
+    this.setState({ todos: this.state.todos });
   }
   whilstEditing(i, value) {
-    let taskListToBeAltered = this.state.todos;
-    let alteredTask = taskListToBeAltered[i];
+    let alteredTask = this.state.todos[i];
     alteredTask.editingTask = value;
-    this.setState({ todos: taskListToBeAltered });
+    this.setState({ todos: this.state.todos });
   }
   render() {
     // Before the return you can do all logic you need
@@ -92,34 +89,35 @@ class TodoList extends React.Component {
           whilstEditing={(e) => {
             this.whilstEditing(i, e.target.value);
           }}
-
         />
       )
     })
 
     return (
-      <div className="container">
+      <div className="container mt-1">
         <h1>Hey I'm a todo list:</h1>
         <div className="row">
-          <div>
-            <p className="pr-1"><strong>Add a new item:</strong></p>
-          </div>
-          <div>
+          <div className="col-6">
             <input
               className="form-control"
               value={this.state.newItem}
-              placeholder='enter text here...'
+              placeholder='Add a new task here...'
               onKeyPress={this.pressEnter}
               onChange={e => this.setState({ newItem: e.target.value })}
               disabled={areAnyTodosBeingEdited}
             />
           </div>
           <div>
-            <button className="btn btn-primary" onClick={this.addItem} disabled={areAnyTodosBeingEdited}>Add item!</button>
+            <button
+              className="btn btn-primary"
+              onClick={this.addItem}
+              disabled={areAnyTodosBeingEdited}
+            >
+              Confirm
+            </button>
           </div>
         </div>
         {todos}
-        {this.state.newItem}
       </div>
     )
   }
