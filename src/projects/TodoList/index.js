@@ -63,7 +63,7 @@ class TodoList extends React.Component {
   }
   render() {
     // Before the return you can do all logic you need
-    let areAnyTodosBeingEdited = this.state.todos.find(item => {
+    const areAnyTodosBeingEdited = this.state.todos.find(item => {
       return item.isEditing;
     })
     let todos = this.state.todos.map((task, i) => {
@@ -95,7 +95,7 @@ class TodoList extends React.Component {
 
     return (
       <div className="container mt-1">
-        <h1>Hey I'm a todo list:</h1>
+        <h1>Hey I&apos;m a todo list:</h1>
         <div className="row">
           <div className="col-6">
             <input

@@ -1,13 +1,13 @@
 import React from 'react';
 import './style.css';
+import binDelete from './images/bin-delete.png';
+import editItemImg from './images/edit.png';
+import taskCompleteImg from './images/checked-box.png';
+import taskNotCompleteImg from './images/unchecked-box.png';
+
 
 class Todo extends React.Component {
   render() {
-    const taskCompleteImg = require('./images/checked-box.png')
-    const taskNotCompleteImg = require('./images/unchecked-box.png')
-    const editItemImg = require('./images/edit.png')
-    const binDelete = require('./images/bin-delete.png')
-
     let checkBox = this.props.completed ? taskCompleteImg : taskNotCompleteImg;
     let completedTask = this.props.completed ? 'completed' : 'not-complete';
 
