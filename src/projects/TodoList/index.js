@@ -101,7 +101,7 @@ class TodoList extends React.Component {
             <input
               className="form-control"
               value={this.state.newItem}
-              placeholder='Add a new task here...'
+              placeholder="Add a new task here..."
               onKeyPress={this.pressEnter}
               onChange={e => this.setState({ newItem: e.target.value })}
               disabled={areAnyTodosBeingEdited}
