@@ -3,29 +3,45 @@ import './style.css';
 
 class Todo extends React.Component {
   render() {
-    let className = this.props.completed ? 'completed' : 'notComplete';
+
+    let completedTask = this.props.completed ? 'completed' : 'not-complete';
     let editing = this.props.isEditing ? (
-      <span>
+      <React.Fragment>
         <input
-          value={this.props.editedItem}
+          value={this.props.editingTask}
           onChange={this.props.whilstEditing}
         />
-        <button onClick={this.props.confirmEditTask}>Confirm</button>
-      </span>
+        <button
+          className="btn btn-info btn-sm"
+          onClick={this.props.confirmEditTask}
+          disabled={this.props.editingTask.trim() === '' }
+        >
+          Confirm
+        </button>
+      </React.Fragment>
     ) : (
-      <span className={className}>{this.props.todo}</span>
+      <span className={completedTask + " border rounded p-1 col"}>
+        {this.props.todo}
+      </span>
     );
-    return (
-      <div>
-        {editing}
-        <button class="btn btn-secondary btn-sm" onClick={this.props.removeItem}>
+
+    let showButtons = (!this.props.isEditing) && (
+      <React.Fragment>
+        <button className="btn btn-danger btn-sm col-2" onClick={this.props.removeItem}>
           Remove Item
         </button>
-        <button class="btn btn-secondary btn-sm" onClick={this.props.changeCompleted}>
+        <button className="btn btn-success btn-sm col-2" onClick={this.props.changeCompleted}>
           Task Complete!
         </button>
-        <button onClick={this.props.editTask}>
-          Edit Task
+      </React.Fragment>
+    )
+
+    return (
+      <div className="row mt-2">
+        {editing}
+        {showButtons}
+        <button className="btn btn-warning btn-sm col-2" onClick={this.props.editTask}>
+          {this.props.isEditing ? 'Cancel' : 'Edit Task'}
         </button>
       </div>
     )

@@ -10,15 +10,13 @@ class TodoList extends React.Component {
     this.pressEnter = this.pressEnter.bind(this)
     this.changeCompleted = this.changeCompleted.bind(this)
     this.confirmEditTask = this.confirmEditTask.bind(this)
-    // this.showEditField = this.showEditField.bind(this)
     this.state = {
       todos: [
-        { task: 'Take out the bins', completed: false, isEditing: false },
-        { task: 'Put a wash load on', completed: true, isEditing: false },
-        { task: 'Learn React', completed: false, isEditing: false }
+        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '' },
+        { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '' },
+        { task: 'Learn React', completed: false, isEditing: false, editingTask: '' }
       ],
-      newItem: '',
-      editedItem: ''
+      newItem: ''
     }
   }
   addItem() {
@@ -50,19 +48,27 @@ class TodoList extends React.Component {
     let taskListToBeAltered = this.state.todos;
     let alteredTask = taskListToBeAltered[i];
     alteredTask.isEditing = !alteredTask.isEditing;
+    alteredTask.editingTask = alteredTask.task;
     this.setState({ todos: taskListToBeAltered });
-    this.setState({ editedItem: alteredTask.task });
   }
   confirmEditTask(i) {
     let taskListToBeAltered = this.state.todos;
     let alteredTask = taskListToBeAltered[i];
-    alteredTask.task = this.state.editedItem;
-    this.setState({ todos: taskListToBeAltered });
+    alteredTask.task = alteredTask.editingTask;
     alteredTask.isEditing = !alteredTask.isEditing;
+    this.setState({ todos: taskListToBeAltered });
   }
-
+  whilstEditing(i, value) {
+    let taskListToBeAltered = this.state.todos;
+    let alteredTask = taskListToBeAltered[i];
+    alteredTask.editingTask = value;
+    this.setState({ todos: taskListToBeAltered });
+  }
   render() {
     // Before the return you can do all logic you need
+    let areAnyTodosBeingEdited = this.state.todos.find(item => {
+      return item.isEditing;
+    })
     let todos = this.state.todos.map((task, i) => {
       return (
         <Todo
@@ -70,7 +76,7 @@ class TodoList extends React.Component {
           todo={task.task}
           completed={task.completed}
           isEditing={task.isEditing}
-          editedItem={this.state.editedItem}
+          editingTask={task.editingTask}
           removeItem={() => {
             this.removeItem(i);
           }}
@@ -83,30 +89,33 @@ class TodoList extends React.Component {
           confirmEditTask={() => {
             this.confirmEditTask(i);
           }}
-          whilstEditing={e => this.setState({ editedItem: e.target.value })}
+          whilstEditing={(e) => {
+            this.whilstEditing(i, e.target.value);
+          }}
 
         />
       )
     })
 
     return (
-      <div className='container'>
+      <div className="container">
         <h1>Hey I'm a todo list:</h1>
-        <div className='row'>
+        <div className="row">
           <div>
-            <p className='pr-1'><strong>Add a new item:</strong></p>
+            <p className="pr-1"><strong>Add a new item:</strong></p>
           </div>
           <div>
             <input
-              className='form-control'
+              className="form-control"
               value={this.state.newItem}
               placeholder='enter text here...'
               onKeyPress={this.pressEnter}
               onChange={e => this.setState({ newItem: e.target.value })}
+              disabled={areAnyTodosBeingEdited}
             />
           </div>
           <div>
-            <button class="btn btn-primary" onClick={this.addItem}>Add item!</button>
+            <button className="btn btn-primary" onClick={this.addItem} disabled={areAnyTodosBeingEdited}>Add item!</button>
           </div>
         </div>
         {todos}
