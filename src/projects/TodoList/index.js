@@ -12,11 +12,17 @@ class TodoList extends React.Component {
     this.confirmEditTask = this.confirmEditTask.bind(this)
     this.state = {
       todos: [
-        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '' },
-        { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '' },
-        { task: 'Learn React', completed: false, isEditing: false, editingTask: '' }
+        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,2,3,4] },
+        { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '', categories: [1,4] },
+        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [4] }
       ],
-      newItem: ''
+      newItem: '',
+      categories: [
+        { id: 1, category: "Urgent", colour: "red" },
+        { id: 2, category: "Housework", colour: "blue" },
+        { id: 3, category: "Shopping", colour: "green" },
+        { id: 4, category: "Birthday", colour: "yellow" }
+      ]
     }
   }
   addItem() {
@@ -38,10 +44,8 @@ class TodoList extends React.Component {
     }
   }
   changeCompleted(i) {
-    this.state.todos[i].completed = !this.state.todos[i].completed
-    // let taskListToBeAltered = this.state.todos
-    // let alteredTask = taskListToBeAltered[i]
-    // alteredTask.completed = !alteredTask.completed;
+    let alteredTask = this.state.todos[i];
+    alteredTask.completed = !alteredTask.completed
     this.setState({ todos: this.state.todos });
   }
   showEditField(i) {
@@ -74,6 +78,8 @@ class TodoList extends React.Component {
           completed={task.completed}
           isEditing={task.isEditing}
           editingTask={task.editingTask}
+          taskCategories={task.categories}
+          categoriesInfo={this.state.categories}
           removeItem={() => {
             this.removeItem(i);
           }}
@@ -101,7 +107,7 @@ class TodoList extends React.Component {
             <input
               className="form-control"
               value={this.state.newItem}
-              placeholder='Add a new task here...'
+              placeholder="Add a new task here..."
               onKeyPress={this.pressEnter}
               onChange={e => this.setState({ newItem: e.target.value })}
               disabled={areAnyTodosBeingEdited}
