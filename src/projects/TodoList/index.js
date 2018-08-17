@@ -14,7 +14,7 @@ class TodoList extends React.Component {
       todos: [
         { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,2,3,4] },
         { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '', categories: [1,4] },
-        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [4] }
+        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [3] }
       ],
       newItem: '',
       categories: [
@@ -30,7 +30,7 @@ class TodoList extends React.Component {
     if (this.state.newItem !== '') {
       const newTodo = { task: this.state.newItem, completed: false }
       newTodos.push(newTodo)
-      this.setState({ todos: newTodos, newItem: '' })
+      this.setState({ todos: newTodos, newItem: '', categories: [] })
     }
   }
   removeItem(i) {

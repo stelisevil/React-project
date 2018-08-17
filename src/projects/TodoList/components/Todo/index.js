@@ -1,4 +1,5 @@
 import React from 'react';
+import CategoryList from '../CategoryList'
 import './style.css';
 import binDelete from './images/bin-delete.png';
 import editItemImg from './images/edit.png';
@@ -8,20 +9,6 @@ import taskNotCompleteImg from './images/unchecked-box.png';
 
 class Todo extends React.Component {
   render() {
-    let categoriesInfo = this.props.categoriesInfo; // <-- category object
-    let taskCategories = this.props.taskCategories; // <-- each task category array
-    let listCategories = taskCategories.map( item => categoriesInfo.find( category => category.id === item ) )
-
-    console.log(listCategories)
-
-    let onlyCategoryNames = [];
-
-    for (let i = 0; i < listCategories.length; i++) {
-      onlyCategoryNames.push(listCategories[i].category)
-    }
-
-    console.log(onlyCategoryNames)
-
     let checkBox = this.props.completed ? taskCompleteImg : taskNotCompleteImg;
     let completedTask = this.props.completed ? 'completed' : 'not-complete';
     let editing = this.props.isEditing ? (
@@ -56,14 +43,24 @@ class Todo extends React.Component {
       </React.Fragment>
     )
 
+    let eachTaskCategory = this.props.taskCategories.map((categoryId, i) => {
+      return (
+        <CategoryList
+           key={i}
+           categoryId={categoryId}
+           taskCategories={this.props.taskCategories}
+           categoriesInfo={this.props.categoriesInfo}
+        />
+      )
+    })
+
+
     return (
       <div className="row mt-2">
         <img className="img-box" alt="Check Box" src={checkBox} onClick={this.props.changeCompleted}/>
         {editing}
+        {eachTaskCategory}
         {showRemoveItem}
-        <div>
-          {onlyCategoryNames}
-        </div>
       </div>
     )
   }
