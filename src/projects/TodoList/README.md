@@ -14,6 +14,12 @@ Deliverables:
 
 5) Ability to edit a todo inline (i.e. click a button next to todo which changes it to an inputbox where you type something new and then hit save)
 
+5.1) When editing a task, only see the confirm/cancel buttons
+
+5.2) When editing a row, disable the input field and Add Item buttons
+
+5.3) Add a border, each task in a box, border/padding/margins. Move the buttons underneath each todo.
+
 ## Stretch goals
 
 6) Ability to add a cateogry to a Todo (i.e. "Shopping" or "Housework" which displays near it)
