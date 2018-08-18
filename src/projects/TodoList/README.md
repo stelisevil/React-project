@@ -24,6 +24,16 @@ Deliverables:
 
 6) Ability to add a cateogry to a Todo (i.e. "Shopping" or "Housework" which displays near it)
 
+6.1) Assign categories when creating a new todo
+
+6.2) Ability to create new catageories
+
+6.3) delete a category
+
+6.3.1) what about if a todo has a category assigned when you want to delete it (when i do 6.3 my code will break until i do this)
+
+6.4) edit a category's todos (leave this for now)
+
 7) Ability to change the view from a single list to a list by category
 
 8) Add an option to "Archive" a Todo which puts in a seperate list

@@ -43,23 +43,16 @@ class Todo extends React.Component {
       </React.Fragment>
     )
 
-    let eachTaskCategory = this.props.taskCategories.map((categoryId, i) => {
-      return (
-        <CategoryList
-           key={i}
-           categoryId={categoryId}
-           taskCategories={this.props.taskCategories}
-           categoriesInfo={this.props.categoriesInfo}
-        />
-      )
-    })
-
-
     return (
       <div className="row mt-2">
         <img className="img-box" alt="Check Box" src={checkBox} onClick={this.props.changeCompleted}/>
         {editing}
-        {eachTaskCategory}
+
+        <CategoryList
+          taskCategories={this.props.taskCategories}
+          categoriesInfo={this.props.categoriesInfo}
+        />
+
         {showRemoveItem}
       </div>
     )

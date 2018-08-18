@@ -1,5 +1,6 @@
 import React from 'react';
 import Todo from './components/Todo';
+import CategoryCheckBoxes from './components/CategoryCheckBoxes';
 import './style.css';
 
 class TodoList extends React.Component {
@@ -10,6 +11,7 @@ class TodoList extends React.Component {
     this.pressEnter = this.pressEnter.bind(this)
     this.changeCompleted = this.changeCompleted.bind(this)
     this.confirmEditTask = this.confirmEditTask.bind(this)
+    this.toggleCheckBox = this.toggleCheckBox.bind(this)
     this.state = {
       todos: [
         { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,2,3,4] },
@@ -18,19 +20,24 @@ class TodoList extends React.Component {
       ],
       newItem: '',
       categories: [
-        { id: 1, category: "Urgent", colour: "red" },
-        { id: 2, category: "Housework", colour: "blue" },
-        { id: 3, category: "Shopping", colour: "green" },
-        { id: 4, category: "Birthday", colour: "yellow" }
+        { id: 1, category: "Urgent", colour: "#dc3545", checked: false },
+        { id: 2, category: "Housework", colour: "#007bff", checked: false },
+        { id: 3, category: "Shopping", colour: "#28a745", checked: false },
+        { id: 4, category: "Birthday", colour: "#ffc107", checked: false }
       ]
     }
   }
   addItem() {
     const newTodos = this.state.todos
-    if (this.state.newItem !== '') {
-      const newTodo = { task: this.state.newItem, completed: false }
+    if (this.state.newItem.trim() !== '') {
+      let checkedCategories = this.state.categories.filter(todo => todo.checked === true)
+      let newTodoCategories = checkedCategories.map((category, i) => {
+        category.checked = false
+        return category.id
+      })
+      const newTodo = { task: this.state.newItem, completed: false, categories: newTodoCategories }
       newTodos.push(newTodo)
-      this.setState({ todos: newTodos, newItem: '', categories: [] })
+      this.setState({ todos: newTodos, newItem: '' })
     }
   }
   removeItem(i) {
@@ -64,6 +71,11 @@ class TodoList extends React.Component {
     let alteredTask = this.state.todos[i];
     alteredTask.editingTask = value;
     this.setState({ todos: this.state.todos });
+  }
+  toggleCheckBox(i) {
+    let alteredCheckBox = this.state.categories[i];
+    alteredCheckBox.checked = !alteredCheckBox.checked;
+    this.setState({ categories: this.state.categories });
   }
   render() {
     // Before the return you can do all logic you need
@@ -122,6 +134,12 @@ class TodoList extends React.Component {
               Confirm
             </button>
           </div>
+        </div>
+        <div className="row">
+          <CategoryCheckBoxes
+            categoriesInfo={this.state.categories}
+            toggleCheckBox={this.toggleCheckBox}
+          />
         </div>
         {todos}
       </div>
