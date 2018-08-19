@@ -10,12 +10,14 @@ class CategoryCheckBoxes extends React.Component {
       };
 
       return (
-        <span style={categoryBoxColour} key={i}>
+        <span className="checkbox-wrapper" style={categoryBoxColour} key={i}>
           <input
             checked={category.checked}
             type="checkbox"
             className="checkbox"
-            onClick={(e) => {this.props.toggleCheckBox(i)}}
+            onClick={(event) => {
+              this.props.toggleCheckBox(i);
+            }}
           />
           {category.category}
         </span>

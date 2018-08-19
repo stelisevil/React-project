@@ -1,3 +1,9 @@
 .checkbox {
   margin: 5px;
 }
+
+.checkbox-wrapper {
+  margin: 5px;
+  border: 1px solid #CCC;
+  padding-right: 5px;
+}

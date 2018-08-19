@@ -30,14 +30,17 @@ class TodoList extends React.Component {
   addItem() {
     const newTodos = this.state.todos
     if (this.state.newItem.trim() !== '') {
-      let checkedCategories = this.state.categories.filter(todo => todo.checked === true)
-      let newTodoCategories = checkedCategories.map((category, i) => {
-        category.checked = false
+      const checkedCategories = this.state.categories.filter(todo => todo.checked === true)
+      const newTodoCategories = checkedCategories.map((category, i) => {
         return category.id
       })
+      const newCategories = this.state.categories.map(category => {
+        category.checked = false;
+        return category;
+      });
       const newTodo = { task: this.state.newItem, completed: false, categories: newTodoCategories }
       newTodos.push(newTodo)
-      this.setState({ todos: newTodos, newItem: '' })
+      this.setState({ todos: newTodos, newItem: '', categories: newCategories });
     }
   }
   removeItem(i) {
@@ -121,7 +124,9 @@ class TodoList extends React.Component {
               value={this.state.newItem}
               placeholder="Add a new task here..."
               onKeyPress={this.pressEnter}
-              onChange={e => this.setState({ newItem: e.target.value })}
+              onChange={(e) => {
+                this.setState({ newItem: e.target.value })
+              }}
               disabled={areAnyTodosBeingEdited}
             />
           </div>
