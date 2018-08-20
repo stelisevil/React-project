@@ -1,6 +1,7 @@
 import React from 'react';
 import Todo from './components/Todo';
 import CategoryCheckBoxes from './components/CategoryCheckBoxes';
+import CreateNewCategory from './components/CreateNewCategory';
 import './style.css';
 
 class TodoList extends React.Component {
@@ -12,6 +13,7 @@ class TodoList extends React.Component {
     this.changeCompleted = this.changeCompleted.bind(this)
     this.confirmEditTask = this.confirmEditTask.bind(this)
     this.toggleCheckBox = this.toggleCheckBox.bind(this)
+    this.addCategory = this.addCategory.bind(this)
     this.state = {
       todos: [
         { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,2,3,4] },
@@ -24,7 +26,12 @@ class TodoList extends React.Component {
         { id: 2, category: "Housework", colour: "#007bff", checked: false },
         { id: 3, category: "Shopping", colour: "#28a745", checked: false },
         { id: 4, category: "Birthday", colour: "#ffc107", checked: false }
-      ]
+      ],
+      newCategory: '',
+      newCategoryRed: '0',
+      newCategoryGreen: '0',
+      newCategoryBlue: '0',
+      newCategoryBeingCreated: false
     }
   }
   addItem() {
@@ -79,6 +86,19 @@ class TodoList extends React.Component {
     let alteredCheckBox = this.state.categories[i];
     alteredCheckBox.checked = !alteredCheckBox.checked;
     this.setState({ categories: this.state.categories });
+  }
+  addCategory() {
+    const largestCategoryId = this.state.categories[(this.state.categories).length-1].id
+    const newCategory = {};
+    const newCategoryColour = "rgb(" + this.state.newCategoryRed + "," + this.state.newCategoryGreen + "," + this.state.newCategoryBlue + ")";
+    newCategory.id = largestCategoryId+1
+    newCategory.category = this.state.newCategory
+    newCategory.colour = newCategoryColour
+    newCategory.checked = false
+    const newCategoryArray = this.state.categories
+    newCategoryArray.push(newCategory)
+    console.log(newCategoryColour)
+    this.setState({ categories: newCategoryArray })
   }
   render() {
     // Before the return you can do all logic you need
@@ -144,6 +164,36 @@ class TodoList extends React.Component {
           <CategoryCheckBoxes
             categoriesInfo={this.state.categories}
             toggleCheckBox={this.toggleCheckBox}
+          />
+        </div>
+        <div>
+          <CreateNewCategory
+            newCategoryValue={this.state.newCategory}
+            newCategoryRed={this.state.newCategoryRed}
+            newCategoryGreen={this.state.newCategoryGreen}
+            newCategoryBlue={this.state.newCategoryBlue}
+            isNewCategoryBeingCreated={this.state.newCategoryBeingCreated}
+            newCategoryChangeRed={(e) => {
+              this.setState({ newCategoryRed: e.target.value });
+            }}
+            newCategoryChangeGreen={(e) => {
+              this.setState({ newCategoryGreen: e.target.value });
+            }}
+            newCategoryChangeBlue={(e) => {
+              this.setState({ newCategoryBlue: e.target.value });
+            }}
+            newCategoryBeingCreatedFalse={() => {
+              this.setState({ newCategoryBeingCreated: false })
+            }}
+            newCategoryBeingCreatedTrue={() => {
+              this.setState({ newCategoryBeingCreated: true })
+            }}
+            typingNewCategory={(e) => {
+              this.setState({ newCategory: e.target.value });
+            }}
+            addCategory={() => {
+              this.addCategory();
+            }}
           />
         </div>
         {todos}
