@@ -22,15 +22,16 @@ class TodoList extends React.Component {
       ],
       newItem: '',
       categories: [
-        { id: 1, category: "Urgent", colour: "#dc3545", checked: false },
-        { id: 2, category: "Housework", colour: "#007bff", checked: false },
-        { id: 3, category: "Shopping", colour: "#28a745", checked: false },
-        { id: 4, category: "Birthday", colour: "#ffc107", checked: false }
+        { id: 1, category: "Urgent", colour: "#dc3545", text: "white", checked: false },
+        { id: 2, category: "Housework", colour: "#007bff", text: "white", checked: false },
+        { id: 3, category: "Shopping", colour: "#28a745", text: "white", checked: false },
+        { id: 4, category: "Birthday", colour: "#ffc107", text: "black", checked: false }
       ],
       newCategory: '',
       newCategoryRed: '0',
       newCategoryGreen: '0',
       newCategoryBlue: '0',
+      newCategoryTextColour: 'white',
       newCategoryBeingCreated: false
     }
   }
@@ -89,16 +90,15 @@ class TodoList extends React.Component {
   }
   addCategory() {
     const largestCategoryId = this.state.categories[(this.state.categories).length-1].id
-    const newCategory = {};
     const newCategoryColour = "rgb(" + this.state.newCategoryRed + "," + this.state.newCategoryGreen + "," + this.state.newCategoryBlue + ")";
+    const newCategory = {};
     newCategory.id = largestCategoryId+1
     newCategory.category = this.state.newCategory
     newCategory.colour = newCategoryColour
     newCategory.checked = false
     const newCategoryArray = this.state.categories
     newCategoryArray.push(newCategory)
-    console.log(newCategoryColour)
-    this.setState({ categories: newCategoryArray })
+    this.setState({ categories: newCategoryArray, newCategoryBeingCreated: false, newCategory: '' })
   }
   render() {
     // Before the return you can do all logic you need
@@ -183,7 +183,7 @@ class TodoList extends React.Component {
               this.setState({ newCategoryBlue: e.target.value });
             }}
             newCategoryBeingCreatedFalse={() => {
-              this.setState({ newCategoryBeingCreated: false })
+              this.setState({ newCategoryBeingCreated: false, newCategory: '' })
             }}
             newCategoryBeingCreatedTrue={() => {
               this.setState({ newCategoryBeingCreated: true })

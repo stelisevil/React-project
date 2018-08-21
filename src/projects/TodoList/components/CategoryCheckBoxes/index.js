@@ -6,7 +6,8 @@ class CategoryCheckBoxes extends React.Component {
     // logic goes here
     let eachCategory = this.props.categoriesInfo.map((category, i) => {
       let categoryBoxColour = {
-        backgroundColor: category.colour
+        backgroundColor: category.colour,
+        color: category.text
       };
 
       return (

@@ -3,14 +3,25 @@ import './style.css';
 
 class CreateNewCategory extends React.Component {
   render () {
+    // logic goes here
+
     let rgb = [];
-    rgb.push(this.props.newCategoryRed)
-    rgb.push(this.props.newCategoryGreen)
-    rgb.push(this.props.newCategoryBlue)
+    rgb.push(this.props.newCategoryRed, this.props.newCategoryGreen, this.props.newCategoryBlue)
     let newCategoryColour = {
       backgroundColor: `rgb(${rgb})`
     };
-    // logic goes here
+
+    let cancelCreateCategoryButton = this.props.isNewCategoryBeingCreated ? (
+      <button
+        className="btn btn-outline-danger"
+        onClick={this.props.newCategoryBeingCreatedFalse}
+      >
+        Cancel
+      </button>
+    ) : (
+      null
+    )
+
     let colourPicker = this.props.isNewCategoryBeingCreated ? (
       <React.Fragment>
         <div className="row">
@@ -24,7 +35,7 @@ class CreateNewCategory extends React.Component {
             value={this.props.newCategoryRed}
             onInput={this.props.newCategoryChangeRed}
           />
-          <div className="col-1">
+          <div className="col-1 input-number">
             {this.props.newCategoryRed}
           </div>
         </div>
@@ -39,7 +50,7 @@ class CreateNewCategory extends React.Component {
             value={this.props.newCategoryGreen}
             onInput={this.props.newCategoryChangeGreen}
           />
-          <div className="col-1">
+          <div className="col-1 input-number">
             {this.props.newCategoryGreen}
           </div>
           <div className="colour-box" style={newCategoryColour}></div>
@@ -55,7 +66,7 @@ class CreateNewCategory extends React.Component {
             value={this.props.newCategoryBlue}
             onInput={this.props.newCategoryChangeBlue}
           />
-          <div className="col-1">
+          <div className="col-1 input-number">
             {this.props.newCategoryBlue}
           </div>
         </div>
@@ -78,12 +89,13 @@ class CreateNewCategory extends React.Component {
             />
           </div>
           <div>
+            {cancelCreateCategoryButton}
             <button
               className="btn btn-primary"
               onClick={this.props.addCategory}
-              // disabled={areAnyTodosBeingEdited}
+              disabled={(this.props.newCategoryValue.trim() === '')}
             >
-              Add Category
+              Confirm
             </button>
           </div>
         </div>
