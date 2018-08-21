@@ -5,10 +5,10 @@ class CategoryList extends React.Component {
   render () {
     let categoriesInfo = this.props.categoriesInfo; // <-- category array of objects
     let eachTaskCategory = this.props.taskCategories.map((categoryId, i) => {
-      let categoryColour = categoriesInfo.find( category => category.id === categoryId )
-      let categoryTooltip = categoryColour.category
+      let eachCategory = categoriesInfo.find( category => category.id === categoryId )
+      let categoryTooltip = eachCategory.category
       let categoryDotColour = {
-        backgroundColor: categoryColour.colour
+        backgroundColor: eachCategory.colour
       };
       return (
         <span
@@ -17,7 +17,8 @@ class CategoryList extends React.Component {
           style={categoryDotColour}
           data-toggle="tooltip"
           data-placement="top"
-          title={categoryTooltip}></span>
+          title={categoryTooltip}
+        />
       )
     })
     return (

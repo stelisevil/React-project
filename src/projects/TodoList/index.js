@@ -2,6 +2,7 @@ import React from 'react';
 import Todo from './components/Todo';
 import CategoryCheckBoxes from './components/CategoryCheckBoxes';
 import CreateNewCategory from './components/CreateNewCategory';
+import Chroma from 'chroma-js';
 import './style.css';
 
 class TodoList extends React.Component {
@@ -38,10 +39,8 @@ class TodoList extends React.Component {
   addItem() {
     const newTodos = this.state.todos
     if (this.state.newItem.trim() !== '') {
-      const checkedCategories = this.state.categories.filter(todo => todo.checked === true)
-      const newTodoCategories = checkedCategories.map((category, i) => {
-        return category.id
-      })
+      const checkedCategories = this.state.categories.filter(todo => todo.checked)
+      const newTodoCategories = checkedCategories.map((category, i) => category.id)
       const newCategories = this.state.categories.map(category => {
         category.checked = false;
         return category;
@@ -90,12 +89,15 @@ class TodoList extends React.Component {
   }
   addCategory() {
     const largestCategoryId = this.state.categories[(this.state.categories).length-1].id
-    const newCategoryColour = "rgb(" + this.state.newCategoryRed + "," + this.state.newCategoryGreen + "," + this.state.newCategoryBlue + ")";
-    const newCategory = {};
-    newCategory.id = largestCategoryId+1
-    newCategory.category = this.state.newCategory
-    newCategory.colour = newCategoryColour
-    newCategory.checked = false
+    const newCategoryColour = `rgb(${this.state.newCategoryRed}, ${this.state.newCategoryGreen}, ${this.state.newCategoryBlue})`;
+    let textColour = Chroma.contrast(newCategoryColour, 'white') > 4.5 ? 'white' : 'black';
+    const newCategory = {
+      id: largestCategoryId+1,
+      category: this.state.newCategory,
+      colour: newCategoryColour,
+      text: textColour,
+      checked: false
+    };
     const newCategoryArray = this.state.categories
     newCategoryArray.push(newCategory)
     this.setState({ categories: newCategoryArray, newCategoryBeingCreated: false, newCategory: '' })
@@ -183,7 +185,13 @@ class TodoList extends React.Component {
               this.setState({ newCategoryBlue: e.target.value });
             }}
             newCategoryBeingCreatedFalse={() => {
-              this.setState({ newCategoryBeingCreated: false, newCategory: '' })
+              this.setState({
+                newCategoryBeingCreated: false,
+                newCategory: '',
+                newCategoryRed: '0',
+                newCategoryBlue: '0', 
+                newCategoryGreen: '0'
+              })
             }}
             newCategoryBeingCreatedTrue={() => {
               this.setState({ newCategoryBeingCreated: true })

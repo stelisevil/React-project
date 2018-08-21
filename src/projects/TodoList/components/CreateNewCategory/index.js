@@ -5,24 +5,21 @@ class CreateNewCategory extends React.Component {
   render () {
     // logic goes here
 
-    let rgb = [];
-    rgb.push(this.props.newCategoryRed, this.props.newCategoryGreen, this.props.newCategoryBlue)
+    let rgb = [this.props.newCategoryRed, this.props.newCategoryGreen, this.props.newCategoryBlue];
     let newCategoryColour = {
       backgroundColor: `rgb(${rgb})`
     };
 
-    let cancelCreateCategoryButton = this.props.isNewCategoryBeingCreated ? (
+    let cancelCreateCategoryButton = this.props.isNewCategoryBeingCreated && (
       <button
         className="btn btn-outline-danger"
         onClick={this.props.newCategoryBeingCreatedFalse}
       >
         Cancel
       </button>
-    ) : (
-      null
     )
 
-    let colourPicker = this.props.isNewCategoryBeingCreated ? (
+    let colourPicker = this.props.isNewCategoryBeingCreated && (
       <React.Fragment>
         <div className="row">
           <div className="col-2 input-colour">
@@ -31,9 +28,10 @@ class CreateNewCategory extends React.Component {
           <input
             className="col-4 input-range"
             type="range"
-            min="0" max="255"
+            min="0"
+            max="255"
             value={this.props.newCategoryRed}
-            onInput={this.props.newCategoryChangeRed}
+            onChange={this.props.newCategoryChangeRed}
           />
           <div className="col-1 input-number">
             {this.props.newCategoryRed}
@@ -46,9 +44,10 @@ class CreateNewCategory extends React.Component {
           <input
             className="col-4 input-range"
             type="range"
-            min="0" max="255"
+            min="0"
+            max="255"
             value={this.props.newCategoryGreen}
-            onInput={this.props.newCategoryChangeGreen}
+            onChange={this.props.newCategoryChangeGreen}
           />
           <div className="col-1 input-number">
             {this.props.newCategoryGreen}
@@ -62,9 +61,10 @@ class CreateNewCategory extends React.Component {
           <input
             className="col-4 input-range"
             type="range"
-            min="0" max="255"
+            min="0"
+            max="255"
             value={this.props.newCategoryBlue}
-            onInput={this.props.newCategoryChangeBlue}
+            onChange={this.props.newCategoryChangeBlue}
           />
           <div className="col-1 input-number">
             {this.props.newCategoryBlue}
@@ -72,8 +72,6 @@ class CreateNewCategory extends React.Component {
         </div>
       </React.Fragment>
 
-    ) : (
-      null
     );
     return (
       <React.Fragment>

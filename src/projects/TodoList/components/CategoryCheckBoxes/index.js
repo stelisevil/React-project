@@ -11,7 +11,7 @@ class CategoryCheckBoxes extends React.Component {
       };
 
       return (
-        <span className="checkbox-wrapper" style={categoryBoxColour} key={i}>
+        <label className="checkbox-wrapper" style={categoryBoxColour} key={i}>
           <input
             checked={category.checked}
             type="checkbox"
@@ -21,7 +21,7 @@ class CategoryCheckBoxes extends React.Component {
             }}
           />
           {category.category}
-        </span>
+        </label>
       )
     })
 
