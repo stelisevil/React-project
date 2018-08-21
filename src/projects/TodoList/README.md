@@ -24,6 +24,10 @@ Deliverables:
 
 6) Ability to add a cateogry to a Todo (i.e. "Shopping" or "Housework" which displays near it)
 
+6.1) Assign categories when creating a new todo
+
+6.2) Ability to create new catageories
+
 7) Ability to change the view from a single list to a list by category
 
 8) Add an option to "Archive" a Todo which puts in a seperate list

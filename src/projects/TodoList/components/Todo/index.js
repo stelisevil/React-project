@@ -1,4 +1,5 @@
 import React from 'react';
+import CategoryList from '../CategoryList'
 import './style.css';
 import binDelete from './images/bin-delete.png';
 import editItemImg from './images/edit.png';
@@ -10,7 +11,6 @@ class Todo extends React.Component {
   render() {
     let checkBox = this.props.completed ? taskCompleteImg : taskNotCompleteImg;
     let completedTask = this.props.completed ? 'completed' : 'not-complete';
-
     let editing = this.props.isEditing ? (
       <React.Fragment>
         <input
@@ -36,18 +36,23 @@ class Todo extends React.Component {
         {this.props.todo}
       </span>
     );
-
     let showRemoveItem = (!this.props.isEditing) && (
       <React.Fragment>
-        <img className="img-box" src={binDelete} onClick={this.props.removeItem}/>
-        <img className="img-box" src={editItemImg} onClick={this.props.editTask}/>
+        <img className="img-box" alt="Delete Task" src={binDelete} onClick={this.props.removeItem}/>
+        <img className="img-box" alt="Edit Task" src={editItemImg} onClick={this.props.editTask}/>
       </React.Fragment>
     )
 
     return (
       <div className="row mt-2">
-        <img className="img-box" src={checkBox} onClick={this.props.changeCompleted}/>
+        <img className="img-box" alt="Check Box" src={checkBox} onClick={this.props.changeCompleted}/>
         {editing}
+
+        <CategoryList
+          taskCategories={this.props.taskCategories}
+          categoriesInfo={this.props.categoriesInfo}
+        />
+
         {showRemoveItem}
       </div>
     )

@@ -1,5 +1,8 @@
 import React from 'react';
 import Todo from './components/Todo';
+import CategoryCheckBoxes from './components/CategoryCheckBoxes';
+import CreateNewCategory from './components/CreateNewCategory';
+import Chroma from 'chroma-js';
 import './style.css';
 
 class TodoList extends React.Component {
@@ -10,21 +13,41 @@ class TodoList extends React.Component {
     this.pressEnter = this.pressEnter.bind(this)
     this.changeCompleted = this.changeCompleted.bind(this)
     this.confirmEditTask = this.confirmEditTask.bind(this)
+    this.toggleCheckBox = this.toggleCheckBox.bind(this)
+    this.addCategory = this.addCategory.bind(this)
     this.state = {
       todos: [
-        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '' },
-        { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '' },
-        { task: 'Learn React', completed: false, isEditing: false, editingTask: '' }
+        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,2,3,4] },
+        { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '', categories: [1,4] },
+        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [3] }
       ],
-      newItem: ''
+      newItem: '',
+      categories: [
+        { id: 1, category: "Urgent", colour: "#dc3545", text: "white", checked: false },
+        { id: 2, category: "Housework", colour: "#007bff", text: "white", checked: false },
+        { id: 3, category: "Shopping", colour: "#28a745", text: "white", checked: false },
+        { id: 4, category: "Birthday", colour: "#ffc107", text: "black", checked: false }
+      ],
+      newCategory: '',
+      newCategoryRed: '0',
+      newCategoryGreen: '0',
+      newCategoryBlue: '0',
+      newCategoryTextColour: 'white',
+      newCategoryBeingCreated: false
     }
   }
   addItem() {
     const newTodos = this.state.todos
-    if (this.state.newItem !== '') {
-      const newTodo = { task: this.state.newItem, completed: false }
+    if (this.state.newItem.trim() !== '') {
+      const checkedCategories = this.state.categories.filter(todo => todo.checked)
+      const newTodoCategories = checkedCategories.map((category, i) => category.id)
+      const newCategories = this.state.categories.map(category => {
+        category.checked = false;
+        return category;
+      });
+      const newTodo = { task: this.state.newItem, completed: false, categories: newTodoCategories }
       newTodos.push(newTodo)
-      this.setState({ todos: newTodos, newItem: '' })
+      this.setState({ todos: newTodos, newItem: '', categories: newCategories });
     }
   }
   removeItem(i) {
@@ -38,10 +61,8 @@ class TodoList extends React.Component {
     }
   }
   changeCompleted(i) {
-    this.state.todos[i].completed = !this.state.todos[i].completed
-    // let taskListToBeAltered = this.state.todos
-    // let alteredTask = taskListToBeAltered[i]
-    // alteredTask.completed = !alteredTask.completed;
+    let alteredTask = this.state.todos[i];
+    alteredTask.completed = !alteredTask.completed
     this.setState({ todos: this.state.todos });
   }
   showEditField(i) {
@@ -61,6 +82,26 @@ class TodoList extends React.Component {
     alteredTask.editingTask = value;
     this.setState({ todos: this.state.todos });
   }
+  toggleCheckBox(i) {
+    let alteredCheckBox = this.state.categories[i];
+    alteredCheckBox.checked = !alteredCheckBox.checked;
+    this.setState({ categories: this.state.categories });
+  }
+  addCategory() {
+    const largestCategoryId = this.state.categories[(this.state.categories).length-1].id
+    const newCategoryColour = `rgb(${this.state.newCategoryRed}, ${this.state.newCategoryGreen}, ${this.state.newCategoryBlue})`;
+    let textColour = Chroma.contrast(newCategoryColour, 'white') > 4.5 ? 'white' : 'black';
+    const newCategory = {
+      id: largestCategoryId+1,
+      category: this.state.newCategory,
+      colour: newCategoryColour,
+      text: textColour,
+      checked: false
+    };
+    const newCategoryArray = this.state.categories
+    newCategoryArray.push(newCategory)
+    this.setState({ categories: newCategoryArray, newCategoryBeingCreated: false, newCategory: '' })
+  }
   render() {
     // Before the return you can do all logic you need
     const areAnyTodosBeingEdited = this.state.todos.find(item => {
@@ -74,6 +115,8 @@ class TodoList extends React.Component {
           completed={task.completed}
           isEditing={task.isEditing}
           editingTask={task.editingTask}
+          taskCategories={task.categories}
+          categoriesInfo={this.state.categories}
           removeItem={() => {
             this.removeItem(i);
           }}
@@ -103,7 +146,9 @@ class TodoList extends React.Component {
               value={this.state.newItem}
               placeholder="Add a new task here..."
               onKeyPress={this.pressEnter}
-              onChange={e => this.setState({ newItem: e.target.value })}
+              onChange={(e) => {
+                this.setState({ newItem: e.target.value })
+              }}
               disabled={areAnyTodosBeingEdited}
             />
           </div>
@@ -116,6 +161,48 @@ class TodoList extends React.Component {
               Confirm
             </button>
           </div>
+        </div>
+        <div className="row">
+          <CategoryCheckBoxes
+            categoriesInfo={this.state.categories}
+            toggleCheckBox={this.toggleCheckBox}
+          />
+        </div>
+        <div>
+          <CreateNewCategory
+            newCategoryValue={this.state.newCategory}
+            newCategoryRed={this.state.newCategoryRed}
+            newCategoryGreen={this.state.newCategoryGreen}
+            newCategoryBlue={this.state.newCategoryBlue}
+            isNewCategoryBeingCreated={this.state.newCategoryBeingCreated}
+            newCategoryChangeRed={(e) => {
+              this.setState({ newCategoryRed: e.target.value });
+            }}
+            newCategoryChangeGreen={(e) => {
+              this.setState({ newCategoryGreen: e.target.value });
+            }}
+            newCategoryChangeBlue={(e) => {
+              this.setState({ newCategoryBlue: e.target.value });
+            }}
+            newCategoryBeingCreatedFalse={() => {
+              this.setState({
+                newCategoryBeingCreated: false,
+                newCategory: '',
+                newCategoryRed: '0',
+                newCategoryBlue: '0', 
+                newCategoryGreen: '0'
+              })
+            }}
+            newCategoryBeingCreatedTrue={() => {
+              this.setState({ newCategoryBeingCreated: true })
+            }}
+            typingNewCategory={(e) => {
+              this.setState({ newCategory: e.target.value });
+            }}
+            addCategory={() => {
+              this.addCategory();
+            }}
+          />
         </div>
         {todos}
       </div>
