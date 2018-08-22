@@ -12,7 +12,7 @@ class CategoryList extends React.Component {
       };
       return (
         <span
-          id={i}
+          key={i}
           className="dot"
           style={categoryDotColour}
           data-toggle="tooltip"

@@ -2,6 +2,7 @@ import React from 'react';
 import Todo from './components/Todo';
 import CategoryCheckBoxes from './components/CategoryCheckBoxes';
 import CreateNewCategory from './components/CreateNewCategory';
+import SortByCategory from './components/SortByCategory';
 import Chroma from 'chroma-js';
 import './style.css';
 
@@ -17,9 +18,9 @@ class TodoList extends React.Component {
     this.addCategory = this.addCategory.bind(this)
     this.state = {
       todos: [
-        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,2,3,4] },
+        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,3,4] },
         { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '', categories: [1,4] },
-        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [3] }
+        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [1,3] }
       ],
       newItem: '',
       categories: [
@@ -189,7 +190,7 @@ class TodoList extends React.Component {
                 newCategoryBeingCreated: false,
                 newCategory: '',
                 newCategoryRed: '0',
-                newCategoryBlue: '0', 
+                newCategoryBlue: '0',
                 newCategoryGreen: '0'
               })
             }}
@@ -205,6 +206,12 @@ class TodoList extends React.Component {
           />
         </div>
         {todos}
+        <div>
+          <SortByCategory
+            todoList={this.state.todos}
+            categoriesList={this.state.categories}
+          />
+        </div>
       </div>
     )
   }
