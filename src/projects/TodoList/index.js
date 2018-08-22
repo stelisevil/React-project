@@ -34,7 +34,8 @@ class TodoList extends React.Component {
       newCategoryGreen: '0',
       newCategoryBlue: '0',
       newCategoryTextColour: 'white',
-      newCategoryBeingCreated: false
+      newCategoryBeingCreated: false,
+      showOrganiseByCategory: false
     }
   }
   addItem() {
@@ -210,6 +211,10 @@ class TodoList extends React.Component {
           <SortByCategory
             todoList={this.state.todos}
             categoriesList={this.state.categories}
+            showOrganiseByCategory={this.state.showOrganiseByCategory}
+            toggleOrganiseByCategory={() => {
+              this.setState({ showOrganiseByCategory: !this.state.showOrganiseByCategory })
+            }}
           />
         </div>
       </div>

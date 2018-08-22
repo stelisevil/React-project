@@ -58,7 +58,19 @@ class SortByCategory extends React.Component {
       )
     })
     return (
-      displaySortedByCategories
+      <React.Fragment>
+        <div className="row p-2">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={this.props.toggleOrganiseByCategory}
+          >
+            Organise by Category
+          </button>
+        </div>
+        {displaySortedByCategories}
+      </React.Fragment>
+
     )
   }
 }
