@@ -1,13 +1,16 @@
 import React from 'react';
 import './style.css';
+import Chroma from 'chroma-js'
 
 class CreateNewCategory extends React.Component {
   render () {
     // logic goes here
 
     let rgb = [this.props.newCategoryRed, this.props.newCategoryGreen, this.props.newCategoryBlue];
+    let categoryTextColour = (Chroma.contrast(`rgb(${rgb})`, 'white') > 4.5) ? 'white' : 'black'
     let newCategoryColour = {
-      backgroundColor: `rgb(${rgb})`
+      backgroundColor: `rgb(${rgb})`,
+      color: categoryTextColour
     };
 
     let cancelCreateCategoryButton = this.props.isNewCategoryBeingCreated && (

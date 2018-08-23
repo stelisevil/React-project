@@ -24,10 +24,10 @@ class TodoList extends React.Component {
       ],
       newItem: '',
       categories: [
-        { id: 1, category: "Urgent", colour: "#dc3545", text: "white", checked: false },
-        { id: 2, category: "Housework", colour: "#007bff", text: "white", checked: false },
-        { id: 3, category: "Shopping", colour: "#28a745", text: "white", checked: false },
-        { id: 4, category: "Birthday", colour: "#ffc107", text: "black", checked: false }
+        { id: 1, category: "Urgent", colour: "#dc3545", checked: false },
+        { id: 2, category: "Housework", colour: "#007bff", checked: false },
+        { id: 3, category: "Shopping", colour: "#28a745", checked: false },
+        { id: 4, category: "Birthday", colour: "#ffc107", checked: false }
       ],
       newCategory: '',
       newCategoryRed: '0',
@@ -92,12 +92,10 @@ class TodoList extends React.Component {
   addCategory() {
     const largestCategoryId = this.state.categories[(this.state.categories).length-1].id
     const newCategoryColour = `rgb(${this.state.newCategoryRed}, ${this.state.newCategoryGreen}, ${this.state.newCategoryBlue})`;
-    let textColour = Chroma.contrast(newCategoryColour, 'white') > 4.5 ? 'white' : 'black';
     const newCategory = {
       id: largestCategoryId+1,
       category: this.state.newCategory,
       colour: newCategoryColour,
-      text: textColour,
       checked: false
     };
     const newCategoryArray = this.state.categories

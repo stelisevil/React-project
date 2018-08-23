@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import Chroma from 'chroma-js'
 
 class SortByCategory extends React.Component {
   render () {
@@ -7,100 +8,97 @@ class SortByCategory extends React.Component {
       const todoList = this.props.todoList;
       const categoriesList = this.props.categoriesList;
     */
-    const { todoList, categoriesList, toggleOrganiseByCategory } = this.props;
+    const { todoList, categoriesList, toggleOrganiseByCategory, showOrganiseByCategory } = this.props;
 
-    /*
-      foreaches here please
-    */
+
+
     let activeCategoryList = [];
-    for (let todoIndex = 0; todoIndex < todoList.length; todoIndex++) {
-      let eachTodoCategories = todoList[todoIndex].categories;
-      for (let i = 0; i < eachTodoCategories.length; i++) {
-        if (!activeCategoryList.includes(eachTodoCategories[i])) {
-          activeCategoryList.push(eachTodoCategories[i]);
+    todoList.forEach((todo) => {
+      let eachTodoCategories = todo.categories
+      eachTodoCategories.forEach((item) => {
+        if(!activeCategoryList.includes(item)) {
+          activeCategoryList.push(item);
         }
-      }
-    }
+      })
+    });
 
     let orderByCategoriesObj = {};
     activeCategoryList.forEach(activeCategory => {
       orderByCategoriesObj[activeCategory] = []
     });
 
-    /*
-      foreach
-    */
-    for (let todoIndex = 0; todoIndex < todoList.length; todoIndex++) {
-      let eachTodoCategories = todoList[todoIndex].categories;
-      for (let i = 0; i < eachTodoCategories.length; i++) {
-        orderByCategoriesObj[eachTodoCategories[i]].push(todoList[todoIndex])
-      }
-    }
+    todoList.forEach((todo) => {
+      let eachTodoCategories = todo.categories;
+      eachTodoCategories.forEach((item) => {
+        orderByCategoriesObj[item].push(todo);
+      })
+    })
 
     let displaySortedByCategories = activeCategoryList.map((categoryId, i) => {
-      /*
-        Variable name more descipt, give the find method in-scope category variable a shorter name
-      */
-      let eachCategory = categoriesList.find( category => category.id === categoryId )
+
+      let category = categoriesList.find( cat => cat.id === categoryId )
 
       /*
-        We can destructue the eachCategory object here to get the values
-        Remember to remove instances of eachCategory. from the names once youve done it
-        const { colour, text, category } = eachCategory;
+        We can destructue the category object here to get the values
+        Remember to remove instances of category. from the names once youve done it
+        const { colour, text, category } = category;
       */
-
+      let categoryTextColour = (Chroma.contrast(category.colour, 'white') > 4.5) ? 'white' : 'black'
       let categoryBoxColour = {
-        backgroundColor: eachCategory.colour,
-        /*
-          As discussed, this shouldn't be part of the category object because its a
-          value that will never change - if you ever have something in state that will
-          never charge its usually a sign it can be moved out into a render concern.
-
-          E.g. this cateogrytext color, its set as black or white when the colour
-          is created so we can decide the text colour here in render rather than storing it
-        */
-        color: eachCategory.text
+        backgroundColor: category.colour,
+        color: categoryTextColour,
       };
       let arrayOfCategoryTasks = orderByCategoriesObj[categoryId]
       let listOfCategoryTasks = arrayOfCategoryTasks.map((eachTask, i) => {
-        // Not style, classname
-        let styleCompletedTask = (eachTask.completed) ? 'completed' : 'not-completed'
-        // Key should always go on the top element being returned
+        let completedTaskClassName = (eachTask.completed) ? 'completed' : 'not-completed'
         return (
-          <div className="row">
+          <div className="row" key={i}>
             <span
               className="dot"
               style={categoryBoxColour}
               data-toggle="tooltip"
               data-placement="top"
-              title={eachCategory.category}
+              title={category.category}
             />
-            <div key={i} className={styleCompletedTask + " h6 mt-2 ml-1"}>{eachTask.task}</div>
+            <div key={i} className={completedTaskClassName + " h6 mt-2 ml-1"}>{eachTask.task}</div>
           </div>
         )
       })
-      // ? not sure about this one just double check but have a look at the key
       return (
-        <React.Fragment>
-          <div key={i} className="row h3 pl-1 m-0" style={categoryBoxColour}>{eachCategory.category}</div>
+        <React.Fragment key={i}>
+          <div className="h3 pl-1 m-0" style={categoryBoxColour}>{category.category}</div>
           {listOfCategoryTasks}
         </React.Fragment>
       )
     })
-    return (
+
+    let showOrganiseByCategoryButton = (showOrganiseByCategory) ? (
       <React.Fragment>
         <div className="row p-2">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-outline-danger"
             onClick={toggleOrganiseByCategory}
           >
-            Organise by Category
+            Cancel
           </button>
         </div>
         {displaySortedByCategories}
       </React.Fragment>
+    ) : (
+      <div className="row p-2">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={toggleOrganiseByCategory}
+        >
+          Organise Tasks by Category
+        </button>
+      </div>
+    );
 
+    return (
+        showOrganiseByCategoryButton
     )
   }
 }
