@@ -29,7 +29,3 @@ Deliverables:
 6.2) Ability to create new catageories
 
 7) Ability to change the view from a single list to a list by category
-
-8) Add an option to "Archive" a Todo which puts in a seperate list
-
-9) Aplhabetically sort the Todos or sort by when they were created (hard one...)

@@ -2,6 +2,7 @@ import React from 'react';
 import Todo from './components/Todo';
 import CategoryCheckBoxes from './components/CategoryCheckBoxes';
 import CreateNewCategory from './components/CreateNewCategory';
+import SortByCategory from './components/SortByCategory';
 import Chroma from 'chroma-js';
 import './style.css';
 
@@ -17,23 +18,24 @@ class TodoList extends React.Component {
     this.addCategory = this.addCategory.bind(this)
     this.state = {
       todos: [
-        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,2,3,4] },
+        { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,3,4] },
         { task: 'Put a wash load on', completed: true, isEditing: false, editingTask: '', categories: [1,4] },
-        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [3] }
+        { task: 'Learn React', completed: false, isEditing: false, editingTask: '', categories: [1,3] }
       ],
       newItem: '',
       categories: [
-        { id: 1, category: "Urgent", colour: "#dc3545", text: "white", checked: false },
-        { id: 2, category: "Housework", colour: "#007bff", text: "white", checked: false },
-        { id: 3, category: "Shopping", colour: "#28a745", text: "white", checked: false },
-        { id: 4, category: "Birthday", colour: "#ffc107", text: "black", checked: false }
+        { id: 1, category: "Urgent", colour: "#dc3545", checked: false },
+        { id: 2, category: "Housework", colour: "#007bff", checked: false },
+        { id: 3, category: "Shopping", colour: "#28a745", checked: false },
+        { id: 4, category: "Birthday", colour: "#ffc107", checked: false }
       ],
       newCategory: '',
       newCategoryRed: '0',
       newCategoryGreen: '0',
       newCategoryBlue: '0',
       newCategoryTextColour: 'white',
-      newCategoryBeingCreated: false
+      newCategoryBeingCreated: false,
+      showOrganiseByCategory: false
     }
   }
   addItem() {
@@ -90,12 +92,10 @@ class TodoList extends React.Component {
   addCategory() {
     const largestCategoryId = this.state.categories[(this.state.categories).length-1].id
     const newCategoryColour = `rgb(${this.state.newCategoryRed}, ${this.state.newCategoryGreen}, ${this.state.newCategoryBlue})`;
-    let textColour = Chroma.contrast(newCategoryColour, 'white') > 4.5 ? 'white' : 'black';
     const newCategory = {
       id: largestCategoryId+1,
       category: this.state.newCategory,
       colour: newCategoryColour,
-      text: textColour,
       checked: false
     };
     const newCategoryArray = this.state.categories
@@ -189,7 +189,7 @@ class TodoList extends React.Component {
                 newCategoryBeingCreated: false,
                 newCategory: '',
                 newCategoryRed: '0',
-                newCategoryBlue: '0', 
+                newCategoryBlue: '0',
                 newCategoryGreen: '0'
               })
             }}
@@ -205,6 +205,16 @@ class TodoList extends React.Component {
           />
         </div>
         {todos}
+        <div>
+          <SortByCategory
+            todoList={this.state.todos}
+            categoriesList={this.state.categories}
+            showOrganiseByCategory={this.state.showOrganiseByCategory}
+            toggleOrganiseByCategory={() => {
+              this.setState({ showOrganiseByCategory: !this.state.showOrganiseByCategory })
+            }}
+          />
+        </div>
       </div>
     )
   }

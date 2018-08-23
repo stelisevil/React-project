@@ -36,7 +36,7 @@ class Todo extends React.Component {
         {this.props.todo}
       </span>
     );
-    let showRemoveItem = (!this.props.isEditing) && (
+    let showRemoveItemButton = (!this.props.isEditing) && (
       <React.Fragment>
         <img className="img-box" alt="Delete Task" src={binDelete} onClick={this.props.removeItem}/>
         <img className="img-box" alt="Edit Task" src={editItemImg} onClick={this.props.editTask}/>
@@ -44,7 +44,7 @@ class Todo extends React.Component {
     )
 
     return (
-      <div className="row mt-2">
+      <div className="row m-1">
         <img className="img-box" alt="Check Box" src={checkBox} onClick={this.props.changeCompleted}/>
         {editing}
 
@@ -53,7 +53,7 @@ class Todo extends React.Component {
           categoriesInfo={this.props.categoriesInfo}
         />
 
-        {showRemoveItem}
+        {showRemoveItemButton}
       </div>
     )
   }
