@@ -1,0 +1,95 @@
+.tweet-container {
+  position: relative;
+  width: 90%;
+  margin: 10px 5% 0 5%;
+  padding: 10px;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px 5px 1px 1px;
+  background-image: url('./images/open-quote.png'), url('./images/close-quote.png');
+  background-repeat: no-repeat, no-repeat;
+  background-position: top left, bottom right;
+  background-size: 20px;
+}
+
+.tweet-container:hover {
+  background-color: #f0f0f0;
+}
+
+.tweet-container p {
+  margin: 0 15px;
+}
+
+.buttons-container {
+  position: relative;
+  display: inline-block;
+  width: calc(60% - 1px);
+  margin: 0 1px 0 5%;
+  padding: 10px;
+  border: 1px solid #bbbbbb;
+  border-radius: 1px 1px 1px 5px;
+}
+
+.buttons-container:hover {
+  background-color: #f0f0f0;
+}
+
+.buttons-container p {
+  margin: 0 15px;
+}
+
+.buttons {
+  margin: 3px;
+  opacity: 0.8;
+}
+
+.buttons:hover {
+  margin: 2px;
+  background-color: #eeeeee;
+  opacity: 1;
+}
+
+.buttons img {
+  width: 100%;
+  height: auto;
+}
+
+.heart {
+  width: 14px;
+  height: 14px;
+  margin-left: 10px;
+}
+
+.heart:hover {
+  width: 16px;
+  height: 16px;
+  margin-left: 9px;
+}
+
+.retweet {
+  width: 22px;
+  height: 14px;
+}
+
+.retweet:hover {
+  width: 24px;
+  height: 16px;
+}
+
+.username-container {
+  position: relative;
+  display: inline-block;
+  width: 30%;
+  margin: 1px 5% 0 0;
+  padding: 10px;
+  border: 1px solid #bbbbbb;
+  border-radius: 1px 1px 5px 1px;
+}
+
+.username-container:hover {
+  background-color: #f0f0f0;
+}
+
+.username-container p {
+  margin: 0 15px;
+  font-weight: bold;
+}
