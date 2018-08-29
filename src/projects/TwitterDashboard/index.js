@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import authToken from './auth';
+import DisplayTweet from './components/DisplayTweet';
 
 axios.defaults.headers.common['Authorization'] = authToken;
 
@@ -9,36 +10,46 @@ class TwitterDashboard extends React.Component {
     super();
     this.state = {
       loading: false,
-      pokemon: null,
-      pokemonNumber: 1
+      tweets: []
     };
-    this.queryPokemonApi = this.queryPokemonApi.bind(this);
+    this.queryTwitterApi = this.queryTwitterApi.bind(this);
   }
 
-  queryPokemonApi() {
+  // `https://pokeapi.co/api/v2/pokemon/${this.state.pokemonNumber}/`
+
+  queryTwitterApi() {
     this.setState({ loading: true });
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${this.state.pokemonNumber}/`).then((response) => {
-      console.log(response.data);
-      this.setState({ loading: false, pokemon: response.data })
+    axios.get('http://localhost:3000/data.json').then((response) => {
+      console.log(response.data.statuses);
+      this.setState({ loading: false, tweets: response.data.statuses })
     });
   }
 
   render() {
-    const { loading, pokemon, pokemonNumber } = this.state;
-    const pokemonDetails = pokemon && (
-      <p>Name: {pokemon.name}</p>
-    );
+    const { loading, tweets } = this.state;
+    const displayTweets = tweets.map((tweet, i) => {
+      return (
+        <DisplayTweet
+          key={i}
+          tweet={tweet.text}
+          tweetId={tweet.id_str}
+          retweets={tweet.retweet_count}
+          favorites={tweet.favorite_count}
+          username={tweet.user.name}
+          screenName={tweet.user.screen_name}
+          urls={tweet.entities.urls}
+        />
+      )
+    })
+
     return (
       <React.Fragment>
-        <p>Pokemon Dashboard {loading && ' - Loading...'}</p>
-        <input value={pokemonNumber} onChange={(e) => {
-          this.setState({ pokemonNumber: e.target.value })
-        }}/>
-        <button onClick={this.queryPokemonApi}>
-          Query Pokemon
+        <p>Twitter Dashboard{loading && ' - Loading...'}</p>
+        <input value="nasa"/>
+        <button onClick={this.queryTwitterApi}>
+          Query Twitter
         </button>
-
-        {pokemonDetails}
+        {displayTweets}
       </React.Fragment>
     )
   }
