@@ -19,7 +19,7 @@ class TwitterDashboard extends React.Component {
 
   queryTwitterApi() {
     this.setState({ loading: true });
-    axios.get('http://localhost:3000/data.json').then((response) => {
+    axios.get('https://api.twitter.com/1.1/search/tweets.json?q=nasa').then((response) => {
       console.log(response.data.statuses);
       this.setState({ loading: false, tweets: response.data.statuses })
     });
