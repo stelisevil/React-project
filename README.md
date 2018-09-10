@@ -1,4 +1,5 @@
 This is a repo containing multiple React projects. Below is a list of projects with individual links: 
+
 This project has a working CircleCI pipeline to check that all unit tests are passing.
 ## [Todolist](https://github.com/stelisevil/react-project/tree/master/src/projects/TodoList)
 A simple Todo list application in React that focuses on my understanding of state, props, components and render, building on the fundamentals of Javascript and HTML/CSS. 
