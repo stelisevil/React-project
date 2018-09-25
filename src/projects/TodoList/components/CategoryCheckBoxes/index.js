@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.css';
 import Chroma from 'chroma-js'
+import redcross from './images/redcross.png';
 
 class CategoryCheckBoxes extends React.Component {
   render () {
@@ -23,6 +24,14 @@ class CategoryCheckBoxes extends React.Component {
             }}
           />
           {category.category}
+          <img
+            className="redcross"
+            alt="Red Cross"
+            src={redcross}
+            onClick={(e) => {
+              this.props.deleteCategory(e, i)
+            }}
+          />
         </label>
       )
     })

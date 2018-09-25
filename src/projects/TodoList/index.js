@@ -16,6 +16,7 @@ class TodoList extends React.Component {
     this.confirmEditTask = this.confirmEditTask.bind(this)
     this.toggleCheckBox = this.toggleCheckBox.bind(this)
     this.addCategory = this.addCategory.bind(this)
+    this.deleteCategory = this.deleteCategory.bind(this)
     this.state = {
       todos: [
         { task: 'Take out the bins', completed: false, isEditing: false, editingTask: '', categories: [1,3,4] },
@@ -33,7 +34,6 @@ class TodoList extends React.Component {
       newCategoryRed: '0',
       newCategoryGreen: '0',
       newCategoryBlue: '0',
-      newCategoryTextColour: 'white',
       newCategoryBeingCreated: false,
       showOrganiseByCategory: false
     }
@@ -90,7 +90,11 @@ class TodoList extends React.Component {
     this.setState({ categories: this.state.categories });
   }
   addCategory() {
-    const largestCategoryId = this.state.categories[(this.state.categories).length-1].id
+    let largestCategoryId = (this.state.categories[(this.state.categories).length-1]) ? (
+      this.state.categories[(this.state.categories).length-1].id
+    ) : (
+      0
+    )
     const newCategoryColour = `rgb(${this.state.newCategoryRed}, ${this.state.newCategoryGreen}, ${this.state.newCategoryBlue})`;
     const newCategory = {
       id: largestCategoryId+1,
@@ -101,6 +105,25 @@ class TodoList extends React.Component {
     const newCategoryArray = this.state.categories
     newCategoryArray.push(newCategory)
     this.setState({ categories: newCategoryArray, newCategoryBeingCreated: false, newCategory: '' })
+  }
+  deleteCategory(i) {
+    let categoryToBeDeleted = this.state.categories[i].id;
+    console.log(categoryToBeDeleted)
+    let alteredTodoList = this.state.todos;
+    alteredTodoList.forEach((todo) => {
+      todo.categories.forEach((cat, i) => {
+        if (cat === categoryToBeDeleted) {
+          todo.categories.splice(i, 1);
+        }
+      })
+    })
+    let alteredCategoryList = this.state.categories;
+    alteredCategoryList.forEach((cat, i) => {
+      if (cat.id === categoryToBeDeleted) {
+        alteredCategoryList.splice(i, 1);
+      }
+    })
+    this.setState({ todos: alteredTodoList, categories: alteredCategoryList })
   }
   render() {
     // Before the return you can do all logic you need
@@ -131,6 +154,9 @@ class TodoList extends React.Component {
           }}
           whilstEditing={(e) => {
             this.whilstEditing(i, e.target.value);
+          }}
+          deleteCategory={(e, i) => {
+            this.deleteCategory(i);
           }}
         />
       )
@@ -166,6 +192,9 @@ class TodoList extends React.Component {
           <CategoryCheckBoxes
             categoriesInfo={this.state.categories}
             toggleCheckBox={this.toggleCheckBox}
+            deleteCategory={(e, i) => {
+              this.deleteCategory(i);
+            }}
           />
         </div>
         <div>
